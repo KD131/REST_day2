@@ -91,10 +91,10 @@ class EmployeeFacadeTest
     @Test
     void createEmployee()
     {
-        EmployeeDTO e = new EmployeeDTO("Test", "UNKNOWN");
-        facade.create(e);
+        EmployeeDTO e1 = new EmployeeDTO("Test", "UNKNOWN");
+        EmployeeDTO e2 = facade.create(e1);
         
-//        assertEquals(3, e.getId());
+        assertEquals(3, e2.getId());
         assertEquals("Test", facade.getEmployeeById(3).getName());
         assertEquals(3, facade.getAllEmployees().size());
     }

@@ -13,7 +13,10 @@ public class EmployeeDTO
     
     public EmployeeDTO(Employee e)
     {
-        this.id = e.getId();
+        if (e.getId() != null)
+        {
+            this.id = e.getId();
+        }
         this.name = e.getName();
         this.address = e.getAddress();
     }

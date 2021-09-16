@@ -99,35 +99,37 @@ public class EmployeeFacade
         }
     }
     
-    public EmployeeDTO create(EmployeeDTO e)
+    public EmployeeDTO create(EmployeeDTO dto)
     {
         EntityManager em = emf.createEntityManager();
+        Employee entity = new Employee(dto.getName(), dto.getAddress(), null);
         try
         {
             em.getTransaction().begin();
-                em.persist(new Employee(e.getName(), e.getAddress(), null));
+                em.persist(entity);
             em.getTransaction().commit();
-            return e;
         }
         finally
         {
             em.close();
         }
+        return new EmployeeDTO(entity);
     }
     
-    public EmployeeWithSalaryDTO create(EmployeeWithSalaryDTO e)
+    public EmployeeWithSalaryDTO create(EmployeeWithSalaryDTO dto)
     {
         EntityManager em = emf.createEntityManager();
+        Employee entity = new Employee(dto.getName(), dto.getAddress(), dto.getSalary());
         try
         {
             em.getTransaction().begin();
-                em.persist(new Employee(e.getName(), e.getAddress(), e.getSalary()));
+                em.persist(entity);
             em.getTransaction().commit();
-            return e;
         }
         finally
         {
             em.close();
         }
+        return new EmployeeWithSalaryDTO(entity);
     }
 }

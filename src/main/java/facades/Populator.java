@@ -6,6 +6,7 @@
 package facades;
 
 import dtos.EmployeeWithSalaryDTO;
+import dtos.MovieDTO;
 import dtos.RenameMeDTO;
 import entities.Employee;
 import entities.RenameMe;
@@ -45,7 +46,25 @@ public class Populator {
         facade.create(new EmployeeWithSalaryDTO(new Employee("Alice", "2nd Street 43", BigDecimal.valueOf(200))));
     }
     
+    public static void populateMovie()
+    {
+        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
+        MovieFacade facade = MovieFacade.getMovieFacade(emf);
+        
+        // reset the table
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+        em.createNamedQuery("Movie.resetPK").executeUpdate();
+        em.getTransaction().commit();
+        
+        facade.create(new MovieDTO(2005, "Star Wars: Episode III - Revenge of the Sith", new String[]{
+                "Hayden Christensen", "Natalie Portman", "Ewan McGregor", "Samuel L. Jackson", "Ian McDiarmid"}));
+        facade.create(new MovieDTO(2007, "Stardust", new String[]{
+                "Charlie Cox", "Claire Danes", "Ian McKellen", "Sienna Miller", "Robert De Niro", "Michelle Pfeiffer", "Henry Cavill"}));
+    }
+    
     public static void main(String[] args) {
-        populateEmployee();
+        populateMovie();
     }
 }
