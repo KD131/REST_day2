@@ -3,7 +3,6 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.EmployeeDTO;
-import entities.Employee;
 import facades.EmployeeFacade;
 import utils.EMF_Creator;
 
@@ -25,8 +24,8 @@ public class EmployeeResource
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllEmployees()
     {
-            List<Employee> res = FACADE.getAllEmployees();
-            return GSON.toJson(EmployeeDTO.getDtos(res));
+            List<EmployeeDTO> res = FACADE.getAllEmployees();
+            return GSON.toJson(res);
     }
     
     @GET
@@ -34,8 +33,8 @@ public class EmployeeResource
     @Produces(MediaType.APPLICATION_JSON)
     public String getEmployee(@PathParam("id") int id)
     {
-        Employee e = FACADE.getEmployeeById(id);
-        return GSON.toJson(new EmployeeDTO(e));
+        EmployeeDTO e = FACADE.getEmployeeById(id);
+        return GSON.toJson(e);
     }
     
     @GET
@@ -43,8 +42,8 @@ public class EmployeeResource
     @Produces(MediaType.APPLICATION_JSON)
     public String getHighestPaid()
     {
-        Employee e = FACADE.getEmployeeWithHighestSalary();
-        return GSON.toJson(new EmployeeDTO(e));
+        EmployeeDTO e = FACADE.getEmployeeWithHighestSalary();
+        return GSON.toJson(e);
     }
     
     @GET
@@ -52,7 +51,7 @@ public class EmployeeResource
     @Produces(MediaType.APPLICATION_JSON)
     public String getEmployee(@PathParam("name") String name)
     {
-        List<Employee> res = FACADE.getEmployeesByName(name);
-        return GSON.toJson(EmployeeDTO.getDtos(res));
+        List<EmployeeDTO> res = FACADE.getEmployeesByName(name);
+        return GSON.toJson(res);
     }
 }

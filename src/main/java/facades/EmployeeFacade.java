@@ -1,5 +1,7 @@
 package facades;
 
+import dtos.EmployeeDTO;
+import dtos.EmployeeWithSalaryDTO;
 import entities.Employee;
 
 import javax.persistence.EntityManager;
@@ -30,12 +32,14 @@ public class EmployeeFacade
         return instance;
     }
     
-    public Employee getEmployeeById(int id)
+    // Uses DTO constructor to create DTO
+    public EmployeeDTO getEmployeeById(int id)
     {
         EntityManager em = emf.createEntityManager();
         try
         {
-            return em.find(Employee.class, id);
+            Employee e = em.find(Employee.class, id);
+            return new EmployeeDTO(e);
         }
         finally
         {
@@ -43,7 +47,8 @@ public class EmployeeFacade
         }
     }
     
-    public List<Employee> getEmployeesByName(String name)
+    // Uses static method to iterate list and convert to DTO
+    public List<EmployeeDTO> getEmployeesByName(String name)
     {
         EntityManager em = emf.createEntityManager();
         try
@@ -51,6 +56,23 @@ public class EmployeeFacade
             TypedQuery<Employee> q = em.createQuery(
                     "SELECT e FROM Employee e WHERE e.name = :name", Employee.class);
             q.setParameter("name", name);
+            List<Employee> res = q.getResultList();
+            return EmployeeDTO.getDtos(res);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    // Uses a Constructor Expression to create DTO
+    public List<EmployeeDTO> getAllEmployees()
+    {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<EmployeeDTO> q = em.createQuery(
+                    "SELECT NEW dtos.EmployeeDTO(e) FROM Employee e", EmployeeDTO.class);
             return q.getResultList();
         }
         finally
@@ -59,28 +81,13 @@ public class EmployeeFacade
         }
     }
     
-    public List<Employee> getAllEmployees()
+    public EmployeeDTO getEmployeeWithHighestSalary()
     {
         EntityManager em = emf.createEntityManager();
         try
         {
-            TypedQuery<Employee> q = em.createQuery(
-                    "SELECT e FROM Employee e", Employee.class);
-            return q.getResultList();
-        }
-        finally
-        {
-            em.close();
-        }
-    }
-    
-    public Employee getEmployeeWithHighestSalary()
-    {
-        EntityManager em = emf.createEntityManager();
-        try
-        {
-            TypedQuery<Employee> q = em.createQuery(
-                    "SELECT e FROM Employee e ORDER BY e.salary DESC", Employee.class);
+            TypedQuery<EmployeeDTO> q = em.createQuery(
+                    "SELECT NEW dtos.EmployeeDTO(e) FROM Employee e ORDER BY e.salary DESC", EmployeeDTO.class);
             q.setMaxResults(1);
             return q.getSingleResult();
         }
@@ -90,15 +97,31 @@ public class EmployeeFacade
         }
     }
     
-    public Employee create(Employee employee)
+    public EmployeeDTO create(EmployeeDTO e)
     {
         EntityManager em = emf.createEntityManager();
         try
         {
             em.getTransaction().begin();
-                em.persist(employee);
+                em.persist(new Employee(e.getName(), e.getAddress(), null));
             em.getTransaction().commit();
-            return employee;
+            return e;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
+    public EmployeeWithSalaryDTO create(EmployeeWithSalaryDTO e)
+    {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            em.getTransaction().begin();
+                em.persist(new Employee(e.getName(), e.getAddress(), e.getSalary()));
+            em.getTransaction().commit();
+            return e;
         }
         finally
         {

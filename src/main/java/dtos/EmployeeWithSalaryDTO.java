@@ -2,32 +2,29 @@ package dtos;
 
 import entities.Employee;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDTO
+public class EmployeeWithSalaryDTO
 {
     private int id;
     private String name;
     private String address;
+    private BigDecimal salary;
     
-    public EmployeeDTO(Employee e)
+    public EmployeeWithSalaryDTO(Employee e)
     {
         this.id = e.getId();
         this.name = e.getName();
         this.address = e.getAddress();
+        this.salary = e.getSalary();
     }
     
-    public EmployeeDTO(String name, String address)
+    public static List<EmployeeWithSalaryDTO> getDtos(List<Employee> entities)
     {
-        this.name = name;
-        this.address = address;
-    }
-    
-    public static List<EmployeeDTO> getDtos(List<Employee> entities)
-    {
-        List<EmployeeDTO> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(new EmployeeDTO(e)));
+        List<EmployeeWithSalaryDTO> dtos = new ArrayList<>();
+        entities.forEach(e -> dtos.add(new EmployeeWithSalaryDTO(e)));
         return dtos;
     }
     
@@ -44,5 +41,10 @@ public class EmployeeDTO
     public String getAddress()
     {
         return address;
+    }
+    
+    public BigDecimal getSalary()
+    {
+        return salary;
     }
 }

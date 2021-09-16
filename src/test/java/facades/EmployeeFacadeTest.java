@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.EmployeeDTO;
 import entities.Employee;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
@@ -59,14 +60,14 @@ class EmployeeFacadeTest
     @Test
     void getEmployeeById()
     {
-        Employee res = facade.getEmployeeById(1);
+        EmployeeDTO res = facade.getEmployeeById(1);
         assertNotNull(res);
     }
     
     @Test
     void getEmployeesByName()
     {
-        List<Employee> res = facade.getEmployeesByName("Bob");
+        List<EmployeeDTO> res = facade.getEmployeesByName("Bob");
         assertEquals(1, res.size());
         assertEquals("Bob", res.get(0).getName());
     }
@@ -74,7 +75,7 @@ class EmployeeFacadeTest
     @Test
     void getAllEmployees()
     {
-        List<Employee> res = facade.getAllEmployees();
+        List<EmployeeDTO> res = facade.getAllEmployees();
         assertNotNull(res);
         assertEquals(2, res.size());
     }
@@ -82,19 +83,19 @@ class EmployeeFacadeTest
     @Test
     void getEmployeeWithHighestSalary()
     {
-        Employee res = facade.getEmployeeWithHighestSalary();
+        EmployeeDTO res = facade.getEmployeeWithHighestSalary();
         assertNotNull(res);
-        assertEquals(BigDecimal.valueOf(200), res.getSalary());
         assertEquals("Alice", res.getName());
     }
     
     @Test
     void createEmployee()
     {
-        Employee e = new Employee("Test", "UNKNOWN", BigDecimal.valueOf(9999));
+        EmployeeDTO e = new EmployeeDTO("Test", "UNKNOWN");
         facade.create(e);
         
-        assertEquals(3, e.getId());
+//        assertEquals(3, e.getId());
+        assertEquals("Test", facade.getEmployeeById(3).getName());
         assertEquals(3, facade.getAllEmployees().size());
     }
 }
