@@ -81,6 +81,8 @@ public class EmployeeFacade
         }
     }
     
+    // if I had to return another list, I would try Beate's technique of casting to Wildcards. (List<DTO>) (List<?>).
+    
     public EmployeeDTO getEmployeeWithHighestSalary()
     {
         EntityManager em = emf.createEntityManager();
