@@ -50,6 +50,15 @@ public class MovieResource
     }
     
     @GET
+    @Path("/title-like/{title}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getMovieLike(@PathParam("title") String title)
+    {
+        List<MovieDTO> res = FACADE.getMoviesByTitleLike(title);
+        return GSON.toJson(res);
+    }
+    
+    @GET
     @Path("/count")
     @Produces(MediaType.APPLICATION_JSON)
     public String getCount()

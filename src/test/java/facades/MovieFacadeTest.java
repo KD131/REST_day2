@@ -77,6 +77,13 @@ class MovieFacadeTest
     }
     
     @Test
+    void getMoviesByTitleLike()
+    {
+        List<MovieDTO> res = facade.getMoviesByTitleLike("star");
+        assertEquals(2, res.size());
+    }
+    
+    @Test
     void getAllMovies()
     {
         List<MovieDTO> res = facade.getAllMovies();

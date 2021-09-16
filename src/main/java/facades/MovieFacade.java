@@ -64,6 +64,26 @@ public class MovieFacade
         }
     }
     
+    // Uses Wildcard casting to convert to DTO
+    // LIKE search containing the parameter
+    @SuppressWarnings("unchecked")
+    public List<MovieDTO> getMoviesByTitleLike(String title)
+    {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            TypedQuery<Movie> q = em.createQuery(
+                    "SELECT m FROM Movie m WHERE m.title LIKE :title", Movie.class);
+            q.setParameter("title", "%" + title + "%");
+            List<Movie> res = q.getResultList();
+            return (List<MovieDTO>) (List<?>) res;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+    
     // Uses a Constructor Expression to create DTO
     public List<MovieDTO> getAllMovies()
     {
@@ -79,8 +99,6 @@ public class MovieFacade
             em.close();
         }
     }
-    
-    // if I had to return another list, I would try Beate's technique of casting to Wildcards. (List<DTO>) (List<?>).
     
     public MovieDTO create(MovieDTO dto)
     {
