@@ -23,6 +23,13 @@ public class MovieResource
     private static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String hello()
+    {
+        return "Movie resource";
+    }
+    
+    @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllMovies()

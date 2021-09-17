@@ -9,7 +9,7 @@ public class ApplicationConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
-//        addRestResourceClasses(resources);
+        addRestResourceClasses(resources);
         return resources;
     }
 
@@ -23,7 +23,8 @@ public class ApplicationConfig extends Application {
         resources.add(errorhandling.GenericExceptionMapper.class);
         resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
         resources.add(rest.RenameMeResource.class);
-//        resources.add(rest.EmployeeResource.class);
+        resources.add(rest.EmployeeResource.class);
+        resources.add(rest.MovieResource.class);
     }
     
 }
