@@ -68,8 +68,6 @@ class MovieResourceTest
         try
         {
             em.getTransaction().begin();
-            em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
-            em.createNamedQuery("Movie.resetPK").executeUpdate();
             
             em.persist(new Movie(2005, "Star Wars: Episode III - Revenge of the Sith", new String[]{
                     "Hayden Christensen", "Natalie Portman", "Ewan McGregor", "Samuel L. Jackson", "Ian McDiarmid"}));
@@ -84,9 +82,23 @@ class MovieResourceTest
         }
     }
     
+    // I thought the deployment bug was because the deletes were before the persists, but that's not the case, so I don't need this AfterEach.
+    // But I left it because why not.
     @AfterEach
     void tearDown()
     {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            em.getTransaction().begin();
+                em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+                em.createNamedQuery("Movie.resetPK").executeUpdate();
+            em.getTransaction().commit();
+        }
+        finally
+        {
+            em.close();
+        }
     }
     
     @Test
