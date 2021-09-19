@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Table(name = "Employee")
 @Entity
 @NamedQuery(name = "Employee.deleteAllRows", query = "DELETE from Employee")
 @NamedNativeQuery(name = "Employee.resetPK", query = "ALTER table Employee AUTO_INCREMENT = 1")
