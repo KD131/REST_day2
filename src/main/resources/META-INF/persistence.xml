@@ -5,6 +5,7 @@
     <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>entities.Employee</class>
+        <class>entities.Movie</class>
         <!--    <class>entities.RenameMe</class>-->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
@@ -34,6 +35,8 @@
         <!-- DO NOT RENAME THE PERSISTENCE UNIT -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!--            <class>entities.RenameMe</class>-->
+        <class>entities.Employee</class>
+        <class>entities.Movie</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         
         <properties>
